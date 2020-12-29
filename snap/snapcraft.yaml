@@ -34,6 +34,7 @@ apps:
     command: usr/bin/quadrapassel
     extensions: [gnome-3-34]
     daemon: simple
+    restart-condition: always
     plugs:
       - gsettings
       - opengl
@@ -125,13 +126,7 @@ parts:
       - usr/lib/*/libmanette*
 
 
-  mir-kiosk-snap-launch:
-    plugin: dump
-    source: https://github.com/MirServer/mir-kiosk-snap-launch.git
-    stage-packages: [inotify-tools]
-    override-build:  $SNAPCRAFT_PART_BUILD/build-with-plugs.sh opengl wayland
-
-
   static:
     source: ./static
     plugin: dump
+    
