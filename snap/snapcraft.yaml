@@ -26,6 +26,7 @@ apps:
       - gsettings
       - opengl
       - pulseaudio
+      - audio-playback
     desktop: usr/share/applications/org.gnome.Quadrapassel.desktop
     common-id: org.gnome.Quadrapassel.desktop
     environment:
@@ -33,13 +34,15 @@ apps:
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/quadrapassel
 
   daemon:
-    command-chain: [bin/wayland-launch, bin/snapcraft-preload]
+    command-chain: [bin/daemon-start, bin/wayland-launch, bin/snapcraft-preload]
     command: usr/bin/quadrapassel
     extensions: [gnome-3-34]
+    daemon: simple
     plugs:
       - gsettings
       - opengl
       - pulseaudio
+      - audio-playback
     environment:
       GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/quadrapassel
@@ -130,3 +133,6 @@ parts:
     stage-packages: [inotify-tools]
     override-build:  $SNAPCRAFT_PART_BUILD/build-with-plugs.sh opengl wayland
 
+  static:
+    source: ./static
+    plugin: dump

@@ -1,0 +1,9 @@
+#!/bin/sh
+
+snapctl set daemon=false
+
+
+# Enable the daemon on Ubuntu Core only (probably a kiosk)
+if grep -q snap_core= /proc/cmdline; then
+  snapctl set daemon=true
+fi
