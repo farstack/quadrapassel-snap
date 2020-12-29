@@ -13,10 +13,6 @@ slots:
     bus: session
     name: org.gnome.Quadrapassel
 
-environment:
-  LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}:${SNAP}/usr/lib/:${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/
-  PATH: $SNAP/bin/:$SNAP/usr/bin/:${PATH}
-
 
 apps:
   quadrapassel:
@@ -132,6 +128,33 @@ parts:
     source: https://github.com/MirServer/mir-kiosk-snap-launch.git
     stage-packages: [inotify-tools]
     override-build:  $SNAPCRAFT_PART_BUILD/build-with-plugs.sh opengl wayland
+
+  desktop-gtk3:
+    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
+    source-subdir: gtk
+    plugin: make
+    make-parameters: ["FLAVOR=gtk3"]
+    build-packages:
+      - build-essential
+      - libgtk-3-dev
+    stage-packages:
+      - libxkbcommon0  # XKB_CONFIG_ROOT
+      - ttf-ubuntu-font-family
+      - dmz-cursor-theme
+      - light-themes
+      - adwaita-icon-theme
+      - gnome-themes-standard
+      - shared-mime-info
+      - libgtk-3-0
+      - libgdk-pixbuf2.0-0
+      - libglib2.0-bin
+      - libgtk-3-bin
+      - unity-gtk3-module
+      - libappindicator3-1
+      - locales-all
+      - xdg-user-dirs
+      - ibus-gtk3
+      - libibus-1.0-5
 
   static:
     source: ./static
