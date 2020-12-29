@@ -30,7 +30,7 @@ apps:
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/quadrapassel
 
   daemon:
-    command-chain: [bin/daemon-start, bin/wayland-launch, bin/snapcraft-preload]
+    command-chain: [bin/daemon-start, bin/snapcraft-preload]
     command: usr/bin/quadrapassel
     extensions: [gnome-3-34]
     daemon: simple
@@ -114,6 +114,8 @@ parts:
       - itstool
       - libmanette-0.2-dev
       - librsvg2-dev
+    stage-packages:
+      - ttf-ubuntu-font-family
 
   libraries:
     plugin: nil
@@ -129,32 +131,6 @@ parts:
     stage-packages: [inotify-tools]
     override-build:  $SNAPCRAFT_PART_BUILD/build-with-plugs.sh opengl wayland
 
-  desktop-gtk3:
-    source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
-    source-subdir: gtk
-    plugin: make
-    make-parameters: ["FLAVOR=gtk3"]
-    build-packages:
-      - build-essential
-      - libgtk-3-dev
-    stage-packages:
-      - libxkbcommon0  # XKB_CONFIG_ROOT
-      - ttf-ubuntu-font-family
-      - dmz-cursor-theme
-      - light-themes
-      - adwaita-icon-theme
-      - gnome-themes-standard
-      - shared-mime-info
-      - libgtk-3-0
-      - libgdk-pixbuf2.0-0
-      - libglib2.0-bin
-      - libgtk-3-bin
-      - unity-gtk3-module
-      - libappindicator3-1
-      - locales-all
-      - xdg-user-dirs
-      - ibus-gtk3
-      - libibus-1.0-5
 
   static:
     source: ./static
