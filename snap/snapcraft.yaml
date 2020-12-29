@@ -33,7 +33,7 @@ apps:
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/quadrapassel
 
   daemon:
-    command-chain: [bin/wayland-launch]
+    command-chain: [bin/wayland-launch, bin/snapcraft-preload]
     command: usr/bin/quadrapassel
     extensions: [gnome-3-34]
     plugs:
@@ -127,5 +127,6 @@ parts:
   mir-kiosk-snap-launch:
     plugin: dump
     source: https://github.com/MirServer/mir-kiosk-snap-launch.git
+    stage-packages: [inotify-tools]
     override-build:  $SNAPCRAFT_PART_BUILD/build-with-plugs.sh opengl wayland
 
