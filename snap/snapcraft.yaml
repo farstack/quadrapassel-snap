@@ -13,6 +13,11 @@ slots:
     bus: session
     name: org.gnome.Quadrapassel
 
+environment:
+  LD_LIBRARY_PATH: ${LD_LIBRARY_PATH}:${SNAP}/usr/lib/:${SNAP}/usr/lib/${SNAPCRAFT_ARCH_TRIPLET}/
+  PATH: $SNAP/bin/:$SNAP/usr/bin/:${PATH}
+
+
 apps:
   quadrapassel:
     command: usr/bin/quadrapassel
@@ -26,6 +31,19 @@ apps:
     environment:
       GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
       LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/quadrapassel
+
+  daemon:
+    command-chain: [bin/wayland-launch]
+    command: usr/bin/quadrapassel
+    extensions: [gnome-3-34]
+    plugs:
+      - gsettings
+      - opengl
+      - pulseaudio
+    environment:
+      GSETTINGS_SCHEMA_DIR: $SNAP/share/glib-2.0/schemas
+      LD_LIBRARY_PATH: $LD_LIBRARY_PATH:$SNAP/lib/quadrapassel
+
 
 parts:
 # needed for clutter to work
@@ -104,3 +122,10 @@ parts:
       - libmanette-0.2-0
     prime:
       - usr/lib/*/libmanette*
+
+
+  mir-kiosk-snap-launch:
+    plugin: dump
+    source: https://github.com/MirServer/mir-kiosk-snap-launch.git
+    override-build:  $SNAPCRAFT_PART_BUILD/build-with-plugs.sh opengl wayland
+
